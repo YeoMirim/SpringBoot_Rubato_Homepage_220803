@@ -10,6 +10,12 @@
 		INSERT INTO rubato_member (mid, mpw, mname, memail) VALUES (#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 
+	<select id="checkIdDao" resultType="int">
+		SELECT COUNT(*) FROM rubato_member WHERE mid=#{param1}
+	</select>
 
+	<select id="checkPwDao" resultType="int">
+		SELECT COUNT(*) FROM rubato_member WHERE mid=#{param1} AND mpw=#{param2 }
+	</select>
 
 </mapper>
