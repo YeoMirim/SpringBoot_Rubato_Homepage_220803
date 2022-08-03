@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <!DOCTYPE html>
 <html>
 <head> 
@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="${pagaContext.request.contextPath }/resources/css/header.css">
 <link rel="stylesheet" type="text/css" href="${pagaContext.request.contextPath }/resources/css/footer.css">
 <link rel="stylesheet" type="text/css" href="${pagaContext.request.contextPath }/resources/css/board_left.css">
-<link rel="stylesheet" type="text/css" href="${pagaContext.request.contextPath }/resources/css/board_view_main.css">
+<link rel="stylesheet" type="text/css" href="${pagaContext.request.contextPath }/resources/css/member_join.css">
 </head>
 <body>
 <div id="wrap">
@@ -66,28 +66,36 @@
 
 <section id="main">
   <img src="${pagaContext.request.contextPath }/resources/img/comm.gif">
-  <h2 id="board_title">자유 게시판 </h2>
-  <div id="view_title_box"> 
-    <span>까스통님의 선물인 보드카가 정말 독하네요!!!</span>
-    <span id="info">루바토 | 조회 : 208 | 2016-04-28 (09:20)</span>
-  </div>	
-  <p id="view_content">
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-  </p>		
-  <div id="comment_box">
-    <img id="title_comment" src="${pagaContext.request.contextPath }/resources/img/title_comment.gif">
-    <textarea></textarea>
-    <img id="ok_ripple" src="${pagaContext.request.contextPath }/resources/img/ok_ripple.gif">
-  </div>
-  <div id="buttons">
-    <a href="#"><img src="${pagaContext.request.contextPath }/resources/img/delete.png"></a>		
-    <a href="board_list"><img src="${pagaContext.request.contextPath }/resources/img/list.png"></a>
-    <a href="board_write"><img src="${pagaContext.request.contextPath }/resources/img/write.png"></a>			
-  </div>
+  <h2 id="board_title">회원 가입 </h2>
+  <div id="write_title"><h2>회원 정보 입력</h2></div>
+  <form action="member_joinOk" method="post">
+	  <table>
+	    <tr id="memberid">
+	      <td class="col1">아이디</td>
+	      <td class="col2"><input type="text" name="mid"></td>
+	    </tr>
+	    <tr id="memberpw">
+	      <td class="col1">비밀번호</td>
+	      <td class="col2"><input type="password" name="mpw"></td>
+	    </tr>		
+	    <tr id="membername">
+	      <td class="col1">이름</td>
+	      <td class="col2"><input type="text" name="mname"></td>
+	    </tr>	
+	    <tr id="memberemail">
+	      <td class="col1">이메일</td>
+	      <td class="col2"><input type="text" name="memail"></td>
+	    </tr>	
+	  </table>
+	  <div id="buttons">
+	  <!-- 
+	    <a href="#"><img src="${pagaContext.request.contextPath }/resources/img/ok.png"></a>
+	   -->
+	    <!-- submit image button -->
+	   	<input type="image" src="${pagaContext.request.contextPath }/resources/img/ok.png">
+	    <a href="board_list"><img src="${pagaContext.request.contextPath }/resources/img/list.png"></a>
+	  </div>
+  </form>
 </section> <!-- section main -->
 <div class="clear"></div>
 <footer>
@@ -103,6 +111,7 @@
     <li><img src="${pagaContext.request.contextPath }/resources/img/twitter.gif"></li>
   </ul>
 </footer> <!-- footer -->
+
 </div> <!-- wrap -->
 </body>
 </html>

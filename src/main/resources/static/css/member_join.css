@@ -34,14 +34,25 @@ section#main td.col1 {
 section#main td.col2 {
     padding:5px 0 0 10px;
 }
-section#main #name input {
-    width:100px;
+section#main #memberid input {
+    width:120px;
     height:16px;
     border:solid 1px #00ba2e;
 }
-section#main #subject input {
-    width:550px;
-    height:16px;	
+section#main #memberpw input {
+    width:120px;
+    height:16px;
+    border:solid 1px #00ba2e;
+}
+section#main #membername input {
+    width:120px;
+    height:16px;
+    border:solid 1px #00ba2e;
+}
+section#main #memberemail input {
+    width:120px;
+    height:16px;
+    border:solid 1px #00ba2e;
 }
 section#main #content textarea {
     width:550px;
@@ -52,4 +63,3 @@ section#main #buttons {
     text-align:right;
     margin:10px 10px 0 0;
 }
-

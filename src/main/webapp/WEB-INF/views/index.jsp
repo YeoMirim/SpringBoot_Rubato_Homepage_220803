@@ -17,7 +17,7 @@
 <header>
   <a href="index"><img id="logo" src="${pagaContext.request.contextPath }/resources/img/logo.png"></a>
 <nav id="top_menu">
-  HOME | LOGIN | JOIN | NOTICE
+  HOME | LOGIN | <a href="member_join">JOIN</a> | NOTICE
 </nav>
 <nav id="main_menu">
   <ul>

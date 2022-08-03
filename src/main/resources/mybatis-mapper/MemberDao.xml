@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		   <!-- mapper를 찾아주는 소스 -->
+   
+   
+<mapper namespace="com.mirim.rubato.dao.MemberDao">
+
+	<insert id="memberJoinDao">
+		INSERT INTO rubato_member (mid, mpw, mname, memail) VALUES (#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+
+
+
+</mapper>

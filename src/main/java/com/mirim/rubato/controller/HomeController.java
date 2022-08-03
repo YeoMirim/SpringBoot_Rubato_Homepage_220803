@@ -1,10 +1,22 @@
 package com.mirim.rubato.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.mirim.rubato.dao.MemberDao;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private SqlSession sqlSession;
 
 	
 	@RequestMapping (value = "/")
@@ -40,5 +52,30 @@ public class HomeController {
 		return "board_write";
 	}
 	
+
+	@RequestMapping (value = "/member_join")
+	public String member_join() {
+		
+		return "member_join";
+	}
+	
+	
+	@RequestMapping (value = "/member_joinOk", method = RequestMethod.POST)
+	public String member_joinOk(HttpServletRequest request, Model model) {
+		
+		String memberid = request.getParameter("mid");
+		String memberpw = request.getParameter("mpw");
+		String membername = request.getParameter("mname");
+		String memberemail = request.getParameter("memail");
+		
+		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+		memberDao.memberJoinDao(memberid, memberpw, membername, memberemail);	// DB에 넣음
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("sessionId", memberid);
+		session.setAttribute("sessionName", membername);
+		
+		return "redirect:index";
+	}
 
 }
