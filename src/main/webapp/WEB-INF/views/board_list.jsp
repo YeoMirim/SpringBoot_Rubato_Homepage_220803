@@ -18,7 +18,20 @@
 <header>
   <a href="index"><img id="logo" src="${pagaContext.request.contextPath }/resources/img/logo.png"></a>
 <nav id="top_menu">
-  HOME | LOGIN | <a href="member_join">JOIN</a> | NOTICE
+  <a href="index">HOME</a> |
+  <%
+  	String sessionId = (String) session.getAttribute("sessionId"); // 형변환 필요
+  	if (sessionId == null) {
+  %>
+  <a href="index">LOGIN</a> | <a href="member_join">JOIN</a> |
+  <%
+  	} else {
+  %>
+  <a href="logout">LOGOUT</a> | MODIFY | 
+  <%
+  	}
+  %>  
+  NOTICE
 </nav>
 <nav id="main_menu">
   <ul>
@@ -31,21 +44,44 @@
 </nav>
 </header> <!-- header -->
 <aside>
-  <article id="login_box">
-    <img id="login_title" src="${pagaContext.request.contextPath }/resources/img/ttl_login.png">
-    <div id="input_button">
-    <ul id="login_input">
-      <li><input type="text"></li>
-      <li><input type="password"></li>
-    </ul>
-    <img id="login_btn" src="${pagaContext.request.contextPath }/resources/img/btn_login.gif">
-    </div> 
-    <div class="clear"></div>
-    <div id="join_search">
-      <img src="${pagaContext.request.contextPath }/resources/img/btn_join.gif">
-      <img src="${pagaContext.request.contextPath }/resources/img/btn_search.gif">
-    </div>
-  </article>
+  <%
+		if (sessionId == null) {
+	%>
+	  <article id="login_box">
+	    <img id="login_title" src="${pagaContext.request.contextPath }/resources/img/ttl_login.png">
+	    <div id="input_button">
+	    <form action="member_loginOk" method="post">  
+	    <ul id="login_input">
+	      <li><input type="text" name="mid"></li>
+	      <li><input type="password" name="mpw"></li>
+	    </ul>
+	    <!-- 
+	    <img id="login_btn" src="${pagaContext.request.contextPath }/resources/img/btn_login.gif">
+	     -->
+	     <input type="image" src="${pagaContext.request.contextPath }/resources/img/btn_login.gif">
+	    </form>
+	    </div> 
+	    <div class="clear"></div>
+	    <div id="join_search">
+	      <img src="${pagaContext.request.contextPath }/resources/img/btn_join.gif" href="">
+	      <img src="${pagaContext.request.contextPath }/resources/img/btn_search.gif">
+	    </div>
+	  </article>
+  	<%
+  		} else {	
+  	%>
+  		<article id="login_box">
+	    <img id="login_title" src="${pagaContext.request.contextPath }/resources/img/ttl_login.png">
+	    <div id="input_button">
+	    	"<%=sessionId %>"님 로그인 중입니다<br><br>
+	    	<input class="button" type="button" value="Logout" onclick="location.href='/logout'">
+	    </div>
+	  </article>
+  	
+  	<%
+  		}
+  	%>
+  
   <nav id="sub_menu">
     <ul>
       <li><a href="board_list">+ 자유 게시판</a></li>

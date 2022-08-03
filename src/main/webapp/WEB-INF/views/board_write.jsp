@@ -18,7 +18,20 @@
 <header>
   <a href="index"><img id="logo" src="${pagaContext.request.contextPath }/resources/img/logo.png"></a>
 <nav id="top_menu">
-  HOME | LOGIN | <a href="member_join">JOIN</a> | NOTICE
+  <a href="index">HOME</a> |
+  <%
+  	String sessionId = (String) session.getAttribute("sessionId"); // 형변환 필요
+  	if (sessionId == null) {
+  %>
+  <a href="index">LOGIN</a> | <a href="member_join">JOIN</a> |
+  <%
+  	} else {
+  %>
+  <a href="logout">LOGOUT</a> | MODIFY | 
+  <%
+  	}
+  %>  
+  NOTICE
 </nav>
 <nav id="main_menu">
   <ul>
@@ -31,21 +44,44 @@
 </nav>
 </header> <!-- header -->
 <aside>
-  <article id="login_box">
-    <img id="login_title" src="${pagaContext.request.contextPath }/resources/img/ttl_login.png">
-    <div id="input_button">
-    <ul id="login_input">
-      <li><input type="text"></li>
-      <li><input type="password"></li>
-    </ul>
-    <img id="login_btn" src="${pagaContext.request.contextPath }/resources/img/btn_login.gif">
-    </div> 
-    <div class="clear"></div>
-    <div id="join_search">
-      <img src="${pagaContext.request.contextPath }/resources/img/btn_join.gif">
-      <img src="${pagaContext.request.contextPath }/resources/img/btn_search.gif">
-    </div>
-  </article>
+  <%
+		if (sessionId == null) {
+	%>
+	  <article id="login_box">
+	    <img id="login_title" src="${pagaContext.request.contextPath }/resources/img/ttl_login.png">
+	    <div id="input_button">
+	    <form action="member_loginOk" method="post">  
+	    <ul id="login_input">
+	      <li><input type="text" name="mid"></li>
+	      <li><input type="password" name="mpw"></li>
+	    </ul>
+	    <!-- 
+	    <img id="login_btn" src="${pagaContext.request.contextPath }/resources/img/btn_login.gif">
+	     -->
+	     <input type="image" src="${pagaContext.request.contextPath }/resources/img/btn_login.gif">
+	    </form>
+	    </div> 
+	    <div class="clear"></div>
+	    <div id="join_search">
+	      <img src="${pagaContext.request.contextPath }/resources/img/btn_join.gif" href="">
+	      <img src="${pagaContext.request.contextPath }/resources/img/btn_search.gif">
+	    </div>
+	  </article>
+  	<%
+  		} else {	
+  	%>
+  		<article id="login_box">
+	    <img id="login_title" src="${pagaContext.request.contextPath }/resources/img/ttl_login.png">
+	    <div id="input_button">
+	    	"<%=sessionId %>"님 로그인 중입니다<br><br>
+	    	<input class="button" type="button" value="Logout" onclick="location.href='/logout'">
+	    </div>
+	  </article>
+  	
+  	<%
+  		}
+  	%>
+  
   <nav id="sub_menu">
     <ul>
       <li><a href="board_list">+ 자유 게시판</a></li>
@@ -65,31 +101,41 @@
 </aside> 
 
 <section id="main">
-  <img src="${pagaContext.request.contextPath }/resources/img/comm.gif">
+  <img src="${pageContext.request.contextPath }/resources/img/comm.gif">
   <h2 id="board_title">자유 게시판 </h2>
   <div id="write_title"><h2>글쓰기</h2></div>
+  
+  <form action="board_writeOk" method="post">  <!-- 파일 첨부는 method가 반드시 post여야 함 -->
   <table>
     <tr id="name">
       <td class="col1">이름</td>
-      <td class="col2"><input type="text"></td>
+      <td class="col2"><input type="text" name="fbname"></td>
+    </tr>
+    <tr id="name">
+      <td class="col1">이메일</td>
+      <td class="col2"><input type="text" name="fbemail"></td>
     </tr>
     <tr id="subject">
       <td class="col1">제목</td>
-      <td class="col2"><input type="text"></td>
+      <td class="col2"><input type="text" name="fbtitle"></td>
     </tr>		
     <tr id="content">
       <td class="col1">내용</td>
-      <td class="col2"><textarea></textarea></td>
-    </tr>	
+      <td class="col2"><textarea name="fbcontent"></textarea></td>
+    </tr>
+    <!-- 	
     <tr id="upload">
       <td class="col1">업로드 파일</td>
-      <td class="col2"><input type="text"> <input type="file"></td>
-    </tr>	
+      <td class="col2"><input type="file" name="files"></td>
+    </tr>
+     -->	
   </table>
   <div id="buttons">
-    <a href="#"><img src="${pagaContext.request.contextPath }/resources/img/ok.png"></a>
-    <a href="board_list"><img src="${pagaContext.request.contextPath }/resources/img/list.png"></a>
+    <input type="image" src="${pageContext.request.contextPath }/resources/img/ok.png">
+    <a href="board_list"><img src="${pageContext.request.contextPath }/resources/img/list.png"></a>
   </div>
+  </form>
+  
 </section> <!-- section main -->
 <div class="clear"></div>
 <footer>

@@ -19,12 +19,12 @@
 <nav id="top_menu">
 
 <!-- 방법1 --> 
-  HOME |
+  <a href="index">HOME</a> |
   <%
   	String sessionId = (String) session.getAttribute("sessionId"); // 형변환 필요
   	if (sessionId == null) {
   %>
-  LOGIN | <a href="member_join">JOIN</a> |
+  <a href="index">LOGIN</a> | <a href="member_join">JOIN</a> |
   <%
   	} else {
   %>
