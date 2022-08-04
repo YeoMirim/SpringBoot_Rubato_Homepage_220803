@@ -87,7 +87,7 @@
       <li><a href="board_list">+ 자유 게시판</a></li>
       <li><a href="#">+ 방명록</a></li>
       <li><a href="#">+ 공지사항</a></li>
-      <li><a href="#">+ 등업요청</a></li>
+      <li><a href="#">+ 등업 요청</a></li>
       <li><a href="#">+ 포토갤러리</a></li>
     </ul>
   </nav>
@@ -104,15 +104,11 @@
   <img src="${pagaContext.request.contextPath }/resources/img/comm.gif">
   <h2 id="board_title">자유 게시판 </h2>
   <div id="view_title_box"> 
-    <span>까스통님의 선물인 보드카가 정말 독하네요!!!</span>
-    <span id="info">루바토 | 조회 : 208 | 2016-04-28 (09:20)</span>
+    <span>${fbView.fbtitle }</span>
+    <span id="info">작성자 : ${fbView.mname } | 조회수 : ${fbView.fbhit } | 작성일 : ${fbView.fbdate }</span>
   </div>	
   <p id="view_content">
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
-    까스통님 고맙습니다. <br>
+    ${fbView.fbcontent }
   </p>		
   <div id="comment_box">
     <img id="title_comment" src="${pagaContext.request.contextPath }/resources/img/title_comment.gif">

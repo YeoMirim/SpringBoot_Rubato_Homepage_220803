@@ -87,7 +87,7 @@
       <li><a href="board_list">+ 자유 게시판</a></li>
       <li><a href="#">+ 방명록</a></li>
       <li><a href="#">+ 공지사항</a></li>
-      <li><a href="#">+ 등업요청</a></li>
+      <li><a href="#">+ 등업 요청</a></li>
       <li><a href="#">+ 포토갤러리</a></li>
     </ul>
   </nav>

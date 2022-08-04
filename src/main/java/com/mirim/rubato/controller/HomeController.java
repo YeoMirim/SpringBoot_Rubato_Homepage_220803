@@ -54,7 +54,17 @@ public class HomeController {
 	
 	
 	@RequestMapping (value = "/board_view")
-	public String board_view() {
+	public String board_view(HttpServletRequest request, Model model) {
+		
+		String fbnum = request.getParameter("fbnum");
+		
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
+		
+		boardDao.fbHitDao(fbnum);		// 조회수 증가 함수 호출
+		
+		FBoardDto fboardDto = boardDao.fbViewDao(fbnum);
+		
+		model.addAttribute("fbView", fboardDto);
 		
 		return "board_view";
 	}
@@ -106,7 +116,7 @@ public class HomeController {
 		return "redirect:index";
 	}
 	
-	
+	// 로그아웃
 	@RequestMapping (value = "/logout")
 	public String logout(HttpSession session) {
 		
@@ -115,7 +125,7 @@ public class HomeController {
 		return "redirect:index";
 	}
 	
-	
+	// 로그인 완료
 	@RequestMapping (value = "/member_loginOk")
 	public String member_loginOk(HttpServletRequest request, Model model) {
 		
@@ -143,7 +153,7 @@ public class HomeController {
 		return "loginOk";
 	}
 
-	
+	//글 작성 완료
 	@RequestMapping (value = "/board_writeOk", method = RequestMethod.POST)  // 첨부파일이 있기때문에 post로 처리
 	public String board_writeOk(HttpServletRequest request) {
 		
@@ -164,6 +174,11 @@ public class HomeController {
 		return "redirect:board_list";   // 게시판으로 돌려보냄
 	}
 	
-	
-	
+/*	
+	@RequestMapping (value = )
+	public String () {
+		
+		return "";
+	}
+*/	
 }

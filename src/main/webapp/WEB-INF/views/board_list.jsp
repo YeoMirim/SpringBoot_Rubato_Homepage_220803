@@ -148,7 +148,7 @@
       <div class="col1">◀ 이전 1 다음 ▶</div>  
      -->
       <div class="col2">
-        <img src="${pagaContext.request.contextPath }/resources/img/list.png"> 
+        <a href="board_list"><img src="${pagaContext.request.contextPath }/resources/img/list.png"></a> 
         <a href="board_write"><img src="${pagaContext.request.contextPath }/resources/img/write.png"></a>
       </div>
     </div>

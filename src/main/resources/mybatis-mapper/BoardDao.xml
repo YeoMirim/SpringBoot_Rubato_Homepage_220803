@@ -19,6 +19,15 @@
 	</select>
 	<!-- 테이블 이름 치환을 t1, t2로 함, orcle은 where절에서 join을 함 -->
 	
-
- 	
+	<select id="fbViewDao" resultType="com.mirim.rubato.dto.FBoardDto">
+		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
+    		FROM rubato_freeboard t1, rubato_member t2 
+   		 	WHERE t1.fbid = t2.mid AND t1.fbnum=#{param1 }
+	</select>
+	<!-- 2개의 조건을 AND로 묶음(Join, 조건) -->
+	
+	<update id="fbHitDao">
+		UPDATE rubato_freeboard SET fbhit=fbhit+1 WHERE fbnum=#{param1 }
+	</update>
+ 	<!-- 함수 실행될때마다(클릭) fbhit값 1씩 증가 -->
 </mapper>
