@@ -105,18 +105,22 @@
     <h2 id="board_title">자유 게시판 </h2>
     <div id="total_search">
       <div id="total">▷ 총 ${listcount }개의 게시물이 있습니다.</div>
-      <div id="search">
-        <div id="select_img"><img src="${pagaContext.request.contextPath }/resources/img/select_search.gif"></div>
-        <div id="search_select">
-          <select>
-            <option>제목</option>
-            <option>내용</option>
-            <option>글쓴이</option>
-          </select> 
-        </div>
-        <div id="search_input"><input type="text"></div>
-        <div id="search_btn"><img src="${pagaContext.request.contextPath }/resources/img/search_button.gif"></div>
-      </div>
+      
+      <form action="board_list">
+	      <div id="search">
+	        <div id="select_img"><img src="${pagaContext.request.contextPath }/resources/img/select_search.gif"></div>
+	        <div id="search_select">
+	          <select name="searchOption">
+	            <option value="title">제목</option>
+	            <option value="content">내용</option>
+	            <option value="writer">글쓴이</option>
+	          </select> 
+	        </div>
+	        <div id="search_input"><input type="text" name="searchKeyword"></div>
+	        <div id="search_btn"><input type="image" src="${pagaContext.request.contextPath }/resources/img/search_button.gif"></div>
+	      </div>
+      </form>
+      
     </div>
     <table>
       <tr>
