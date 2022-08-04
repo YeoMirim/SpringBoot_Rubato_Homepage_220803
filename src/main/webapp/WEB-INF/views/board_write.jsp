@@ -105,7 +105,7 @@
   <h2 id="board_title">자유 게시판 </h2>
   <div id="write_title"><h2>글쓰기</h2></div>
   
-  <form action="board_writeOk" method="post">  <!-- 파일 첨부는 method가 반드시 post여야 함 -->
+  <form action="board_writeOk" method="post" enctype="multipart/form-data">  <!-- 파일 첨부는 method가 반드시 post여야 함, 파일 전송은 인코딩되야함 -->
   <table>
  <!-- Join으로 처리할 예정이므로 이름과 이메일은 필요X
     <tr id="name">
@@ -125,12 +125,12 @@
       <td class="col1">내용</td>
       <td class="col2"><textarea name="fbcontent"></textarea></td>
     </tr>
-    <!-- 	
+     	
     <tr id="upload">
       <td class="col1">업로드 파일</td>
-      <td class="col2"><input type="file" name="files"></td>
+      <td class="col2"><input type="file" name="uploadFiles"></td>
     </tr>
-     -->	
+    	
   </table>
   <div id="buttons">
     <input type="image" src="${pageContext.request.contextPath }/resources/img/ok.png">

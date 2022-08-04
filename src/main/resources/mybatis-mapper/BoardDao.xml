@@ -11,49 +11,53 @@
 		INSERT INTO rubato_freeboard (fbnum, fbid, fbtitle, fbcontent, fbhit, fbreplycount) VALUES (rubatofb_seq.nextval, #{param1}, #{param2}, #{param3}, 0, 0)
 	</insert>
 
+	<!-- Join : 테이블 이름 치환을 t1, t2로 함, orcle은 where절에서 join을 함 -->
 	<select id="fbListDao" resultType="com.mirim.rubato.dto.FBoardDto">
 		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
     		FROM rubato_freeboard t1, rubato_member t2 
    		 	WHERE t1.fbid = t2.mid
     		ORDER by t1.fbnum DESC
 	</select>
-	<!-- 테이블 이름 치환을 t1, t2로 함, orcle은 where절에서 join을 함 -->
 	
+	<!-- 2개의 조건을 AND로 묶음(Join, 조건) -->
 	<select id="fbViewDao" resultType="com.mirim.rubato.dto.FBoardDto">
 		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
     		FROM rubato_freeboard t1, rubato_member t2 
    		 	WHERE t1.fbid = t2.mid AND t1.fbnum=#{param1 }
 	</select>
-	<!-- 2개의 조건을 AND로 묶음(Join, 조건) -->
 	
+	<!-- 함수 실행될때마다(클릭) fbhit값 1씩 증가 -->
 	<update id="fbHitDao">
 		UPDATE rubato_freeboard SET fbhit=fbhit+1 WHERE fbnum=#{param1 }
 	</update>
- 	<!-- 함수 실행될때마다(클릭) fbhit값 1씩 증가 -->
  	
+ 	<!-- 자유게시판 제목으로 검색한 결과 리스트만 선택 -->
  	<select id="fbTitleSearchList" resultType="com.mirim.rubato.dto.FBoardDto">
  		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
     		FROM rubato_freeboard t1, rubato_member t2 
    		 	WHERE t1.fbid = t2.mid AND t1.fbtitle LIKE '%' || #{param1 } || '%' 
     		ORDER by t1.fbnum DESC 
  	</select>
- 	<!-- 자유게시판 제목으로 검색한 결과 리스트만 선택 -->
  	
+ 	<!-- 자유게시판 내용으로 검색한 결과 리스트만 선택 -->
  	<select id="fbContentSearchList" resultType="com.mirim.rubato.dto.FBoardDto">
  		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
     		FROM rubato_freeboard t1, rubato_member t2 
    		 	WHERE t1.fbid = t2.mid AND t1.fbcontent LIKE '%' || #{param1 } || '%' 
     		ORDER by t1.fbnum DESC 
  	</select>
- 	<!-- 자유게시판 제목으로 검색한 결과 리스트만 선택 -->
  	
+ 	<!-- 자유게시판 작성자로 검색한 결과 리스트만 선택 -->
  	<select id="fbNameSearchList" resultType="com.mirim.rubato.dto.FBoardDto">
  		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
     		FROM rubato_freeboard t1, rubato_member t2 
    		 	WHERE t1.fbid = t2.mid AND t2.mname LIKE '%' || #{param1 } || '%' 
     		ORDER by t1.fbnum DESC 
  	</select>
- 	<!-- 자유게시판 제목으로 검색한 결과 리스트만 선택 -->
  	
+ 	<!-- 파일 업로드 -->
+ 	<insert id="fbfileInsertDao">
+		INSERT INTO rubato_uploadfile(filenum, boardnum, filename, orifilename, fileurl, fileextension) VALUES(rubatofile_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5})
+	</insert>
  	
 </mapper>

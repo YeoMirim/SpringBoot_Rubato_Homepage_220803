@@ -1,17 +1,22 @@
 package com.mirim.rubato.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mirim.rubato.dao.BoardDao;
 import com.mirim.rubato.dao.MemberDao;
@@ -174,7 +179,7 @@ public class HomeController {
 
 	//글 작성 완료
 	@RequestMapping (value = "/board_writeOk", method = RequestMethod.POST)  // 첨부파일이 있기때문에 post로 처리
-	public String board_writeOk(HttpServletRequest request) {
+	public String board_writeOk(HttpServletRequest request, @RequestPart MultipartFile uploadFiles) throws Exception {  // MultipartFile이 업로드된 파일을 받음(Annotation으로 @RequestPart가 필요함) 
 		
 		String fbtitle = request.getParameter("fbtitle");
 		String fbcontent = request.getParameter("fbcontent");
@@ -188,7 +193,37 @@ public class HomeController {
 			fbid = "GUEST";		// 작성자는 guest로 출력됨	
 		}
 		
-		boardDao.fbWriteDao(fbid, fbtitle, fbcontent);
+//		[파일 업로드 관련]
+		if (uploadFiles.isEmpty()) {		// 파일 첨부 여부 판단 (true or false)
+			boardDao.fbWriteDao(fbid, fbtitle, fbcontent);
+			// 첨부된 파일이 없는 경우 제목과 내용만 DB에 업로드
+		} else {
+			boardDao.fbWriteDao(fbid, fbtitle, fbcontent);  // 게시글의 번호 (실행하자마자 fbnum값이  생성됨)
+			
+			ArrayList<FBoardDto> fbDtos = boardDao.fbListDao(); // 글 쓰자마자 가장 최근글 바로 꺼냄
+			
+			
+			String orifilename = uploadFiles.getOriginalFilename();		// 기존의 파일의 이름 가져오기
+			String fileextension = FilenameUtils.getExtension(orifilename).toLowerCase();	// 파일의 확장자만 가져옴(소문자로 변환시켜 추출)
+			String fileurl = "D:\\Springboot_workspace\\SpringBoot_Rubato_Homepage\\src\\main\\resources\\static\\uploadfiles\\";  // 물리적 경로(url) 작성(파일의 Properties)
+			String filename; // 랜덤으로 변경된 파일 이름(서버에 저장되는 파일의 이름)
+			File destinationFile;	// java.io의 파일관련 클래스
+
+			do {	// 동일한 파일명이 나오지 않을때까지 계속 돌림
+				filename = RandomStringUtils.randomAlphanumeric(32) + "." + fileextension;
+				// 영문대소문자와 숫자가 혼합된 랜덤 32자의 파일이름을 생성한 후 확장자 연결하여 서버에 저장될 파일의 이름 생성	
+				destinationFile = new File(fileurl+filename);	// 파일 경로와 이름으로 초기화
+			} while(destinationFile.exists());	// 같은 이름의 파일이 저장소에 존재하면 true 출력
+			
+			destinationFile.getParentFile().mkdir();
+			uploadFiles.transferTo(destinationFile);	// 파일에 관한건 예외처리가 필요 (class 전체에 예외처리함)
+			
+			int boardnum = fbDtos.get(0).getFbnum();	
+			// 가져온 게시글 목록 중에서 가장 최근에 만들어진 글(FBoardDto)을 불러와 게시글번호(fbnum)만 추출
+			
+			boardDao.fbfileInsertDao(boardnum, filename, orifilename, fileurl, fileextension);
+		}
+//		파일 업로드 구문 종료 		
 		
 		return "redirect:board_list";   // 게시판으로 돌려보냄
 	}
