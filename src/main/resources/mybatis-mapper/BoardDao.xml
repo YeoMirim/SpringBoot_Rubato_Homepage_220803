@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		   <!-- mapper를 찾아주는 소스 -->
+   
+   
+<mapper namespace="com.mirim.rubato.dao.BoardDao">
+
+	<insert id="fbWriteDao" >
+		INSERT INTO rubato_freeboard (fbnum, fbid, fbtitle, fbcontent, fbhit, fbreplycount) VALUES (rubatofb_seq.nextval, #{param1}, #{param2}, #{param3}, 0, 0)
+	</insert>
+
+	<select id="fbListDao" resultType="com.mirim.rubato.dto.FBoardDto">
+		SELECT t1.fbnum, t1.fbid, t1.fbtitle, t1.fbcontent, t1.fbdate, t1.fbhit, t1.fbreplycount, t2.mname
+    		FROM rubato_freeboard t1, rubato_member t2 
+   		 	WHERE t1.fbid = t2.mid
+    		ORDER by t1.fbnum DESC
+	</select>
+	<!-- 테이블 이름 치환을 t1, t2로 함, orcle은 where절에서 join을 함 -->
+	
+
+ 	
+</mapper>

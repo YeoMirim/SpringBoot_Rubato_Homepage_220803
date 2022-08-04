@@ -44,6 +44,7 @@
 </nav>
 </header> <!-- header -->
 <aside>
+	<!-- 로그인 박스 -->
   <%
 		if (sessionId == null) {
 	%>
@@ -103,7 +104,7 @@
     <img src="${pagaContext.request.contextPath }/resources/img/comm.gif">
     <h2 id="board_title">자유 게시판 </h2>
     <div id="total_search">
-      <div id="total">▷ 총 5개의 게시물이 있습니다.</div>
+      <div id="total">▷ 총 ${listcount }개의 게시물이 있습니다.</div>
       <div id="search">
         <div id="select_img"><img src="${pagaContext.request.contextPath }/resources/img/select_search.gif"></div>
         <div id="search_select">
@@ -125,36 +126,27 @@
         <th>일시</th>
         <th>조회수</th>
       </tr>
+      
+      <c:forEach items="${fblist }" var="fbdto">
       <tr>
-        <td class="col1">1</td>
+        <td class="col1">${fbdto.fbnum }</td>
         <td class="col2">
-          <a href="board_view">까스통님의 선물인 보드카가 정말 독하네요!!!</a>
+          <a href="board_view?fbnum=${fbdto.fbnum }">${fbdto.fbtitle }</a>
         </td>
-        <td class="col3">루바토</td>
-        <td class="col4">2017-09-20</td>
-        <td class="col5">15</td>
+        <td class="col3">${fbdto.mname }</td>
+        <td class="col4">
+        	<c:out value="${fn:substring(fbdto.fbdate, 0, 10) }"></c:out> <!-- 날짜만 출력 0번째부터 10번째까지만 -->
+        </td>
+        <td class="col5">${fbdto.fbhit }</td>
       </tr>
-      <tr>
-        <td class="col1">2</td>
-        <td class="col2">
-          <a href="board_view">까스통님의 선물인 보드카가 정말 독하네요!!!</a>
-        </td>
-        <td class="col3">루바토</td>
-        <td class="col4">2017-09-20</td>
-        <td class="col5">15</td>
-      </tr>	
-      <tr>
-        <td class="col1">3</td>
-        <td class="col2">
-          <a href="board_view">까스통님의 선물인 보드카가 정말 독하네요!!!</a>
-        </td>
-        <td class="col3">루바토</td>
-        <td class="col4">2017-09-20</td>
-        <td class="col5">15</td>
-      </tr>
+      </c:forEach>
+      <!-- 반복되는 구문 -->
+      
     </table>
     <div id="buttons">
-      <div class="col1">◀ 이전 1 다음 ▶</div>
+    <!-- 페이징 기능은 생략
+      <div class="col1">◀ 이전 1 다음 ▶</div>  
+     -->
       <div class="col2">
         <img src="${pagaContext.request.contextPath }/resources/img/list.png"> 
         <a href="board_write"><img src="${pagaContext.request.contextPath }/resources/img/write.png"></a>

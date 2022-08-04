@@ -1,5 +1,8 @@
 package com.mirim.rubato.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mirim.rubato.dao.BoardDao;
 import com.mirim.rubato.dao.MemberDao;
+import com.mirim.rubato.dto.FBoardDto;
 
 @Controller
 public class HomeController {
@@ -33,7 +38,16 @@ public class HomeController {
 	
 	
 	@RequestMapping (value = "/board_list")
-	public String board_list() {
+	public String board_list(HttpServletRequest request, Model model) {
+		
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
+		
+		ArrayList<FBoardDto> fbDtos = boardDao.fbListDao();
+		
+		int listcount = fbDtos.size();	// 게시판 글 목록의 글 개수
+		
+		model.addAttribute("fblist",fbDtos);
+		model.addAttribute("listcount", listcount);
 		
 		return "board_list";
 	}
@@ -129,4 +143,27 @@ public class HomeController {
 		return "loginOk";
 	}
 
+	
+	@RequestMapping (value = "/board_writeOk", method = RequestMethod.POST)  // 첨부파일이 있기때문에 post로 처리
+	public String board_writeOk(HttpServletRequest request) {
+		
+		String fbtitle = request.getParameter("fbtitle");
+		String fbcontent = request.getParameter("fbcontent");
+		
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);		// sqlsession으로 boardDao 생성
+		HttpSession session = request.getSession();
+		
+		String fbid = (String) session.getAttribute("sessionId");		// ID를 session에서 뽑아냄
+		
+		if (fbid == null) {		// 로그인이 안된 경우
+			fbid = "GUEST";		// 작성자는 guest로 출력됨	
+		}
+		
+		boardDao.fbWriteDao(fbid, fbtitle, fbcontent);
+		
+		return "redirect:board_list";   // 게시판으로 돌려보냄
+	}
+	
+	
+	
 }

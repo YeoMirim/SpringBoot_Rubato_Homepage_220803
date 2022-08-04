@@ -107,6 +107,7 @@
   
   <form action="board_writeOk" method="post">  <!-- 파일 첨부는 method가 반드시 post여야 함 -->
   <table>
+ <!-- Join으로 처리할 예정이므로 이름과 이메일은 필요X
     <tr id="name">
       <td class="col1">이름</td>
       <td class="col2"><input type="text" name="fbname"></td>
@@ -115,6 +116,7 @@
       <td class="col1">이메일</td>
       <td class="col2"><input type="text" name="fbemail"></td>
     </tr>
+-->    
     <tr id="subject">
       <td class="col1">제목</td>
       <td class="col2"><input type="text" name="fbtitle"></td>
