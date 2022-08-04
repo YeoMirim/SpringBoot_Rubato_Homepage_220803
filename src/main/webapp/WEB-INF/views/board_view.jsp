@@ -109,12 +109,59 @@
   </div>	
   <p id="view_content">
     ${fbView.fbcontent }
-  </p>		
+  </p>
+  
+  <!-- 그림인 경우 화면에 보이게 만들기 -->
+  <c:if test="${fileDto.fileextension == 'jpg' or fileDto.fileextension == 'gif' or fileDto.fileextension == 'png' or fileDto.fileextension == 'bmp'}">
+  	<p id="image_view">
+  		<img src="${pagaContext.request.contextPath }/resources/uploadfiles/${fileDto.filename }" >
+  	</p>
+  </c:if>
+  <!-- 사진이 한번에 안뜨는 경우 uploadfile을 refresh해주거나 Window -> preference -> workspace 상단 3개 체크 -->
+  <!-- 게시글 첨부파일 다운로드 기능 추가 -->
+  <hr>
+  <br>
+  <p id="file_info">
+  	 <span class="file_info"> 첨부파일 : 
+  	 <a href="${pagaContext.request.contextPath }/resources/uploadfiles/${fileDto.filename }" style="text-decoration: none">
+  	 ${fileDto.orifilename }</a></span> 	   	   
+  </p>
+  <br>
+  <!-- 게시글 첨부기능 끝 -->
+  
+  <!-- 해당 글의 작성된 댓글 출력 list -->
+  <table border="1"  cellpadding="0" cellspacing="0" width="750" style="border: dots">
+  	<c:forEach items="${rblist }" var="rbdto">
+  		<tr>
+  			<td>
+  				댓글 작성자 : ${rbdto.rbid }
+  			</td>
+  		</tr>
+  		<tr>	
+  			<td>
+  				내용 : ${rbdto.rbcontent }
+  			</td>
+  		</tr>
+  		<tr>	
+  			<td>
+  				게시일 : ${rbdto.rbdate }
+  			</td>
+  		</tr>
+  	</c:forEach>
+  </table>
+  <!-- 댓글 리스트 종료 -->
+  
+  <!-- 댓글 작성 기능 추가 -->	
   <div id="comment_box">
-    <img id="title_comment" src="${pagaContext.request.contextPath }/resources/img/title_comment.gif">
-    <textarea></textarea>
-    <img id="ok_ripple" src="${pagaContext.request.contextPath }/resources/img/ok_ripple.gif">
+	  <form action="replyOk">
+	  	<input type="hidden" name="boardnum" value="${fbView.fbnum }">	
+	    <img id="title_comment" src="${pagaContext.request.contextPath }/resources/img/title_comment.gif">
+	    <textarea name="rbcontent"></textarea>
+	    <input type="image" id="ok_ripple" src="${pagaContext.request.contextPath }/resources/img/ok_ripple.gif">
+	  </form>
   </div>
+  <!-- 댓글 기능 끝 -->
+  
   <div id="buttons">
     <a href="#"><img src="${pagaContext.request.contextPath }/resources/img/delete.png"></a>		
     <a href="board_list"><img src="${pagaContext.request.contextPath }/resources/img/list.png"></a>

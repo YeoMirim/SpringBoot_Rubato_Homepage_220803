@@ -2,8 +2,6 @@ package com.mirim.rubato.controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mirim.rubato.dao.BoardDao;
 import com.mirim.rubato.dao.MemberDao;
 import com.mirim.rubato.dto.FBoardDto;
+import com.mirim.rubato.dto.FileDto;
 
 @Controller
 public class HomeController {
@@ -81,14 +80,18 @@ public class HomeController {
 	public String board_view(HttpServletRequest request, Model model) {
 		
 		String fbnum = request.getParameter("fbnum");
+		int fbnumint = Integer.parseInt(fbnum);
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
 		boardDao.fbHitDao(fbnum);		// 조회수 증가 함수 호출
 		
 		FBoardDto fboardDto = boardDao.fbViewDao(fbnum);
+		FileDto fileDto = boardDao.fbGetFileInfoDao(fbnum);
 		
 		model.addAttribute("fbView", fboardDto);
+		model.addAttribute("fileDto",fileDto);
+		model.addAttribute("rblist",boardDao.rblistDao(fbnumint));	// 댓글 리스트 가져와서 변환하기
 		
 		return "board_view";
 	}
@@ -228,11 +231,33 @@ public class HomeController {
 		return "redirect:board_list";   // 게시판으로 돌려보냄
 	}
 	
-/*	
-	@RequestMapping (value = )
-	public String () {
+	
+	@RequestMapping (value = "replyOk")
+	public String replyOk(HttpServletRequest request, Model model) {
 		
-		return "";
+		String boardnum = request.getParameter("boardnum");		// 댓글이 달릴 원 게시글의 고유번호
+		String rbcontent = request.getParameter("rbcontent");	// 댓글의 내용
+		int fbnum = Integer.parseInt(boardnum);		// int로 형변환 
+		
+		HttpSession session = request.getSession();
+		String sessionId = (String) session.getAttribute("sessionId");
+		
+		String rbid = null;
+		
+		if (sessionId == null) {
+			rbid = "GUEST";			
+		} else {
+			rbid = sessionId;
+		}
+		
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
+		
+		boardDao.rbwriteDao(fbnum, rbid, rbcontent);	
+		
+		model.addAttribute("fbView", boardDao.fbViewDao(boardnum));		// 원글 내용
+		model.addAttribute("rblist", boardDao.rblistDao(fbnum));		// 댓글 목록
+		
+		return "board_view";
 	}
-*/	
+	
 }
