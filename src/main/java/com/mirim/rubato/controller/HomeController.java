@@ -89,9 +89,11 @@ public class HomeController {
 		FBoardDto fboardDto = boardDao.fbViewDao(fbnum);
 		FileDto fileDto = boardDao.fbGetFileInfoDao(fbnum);
 		
+		
 		model.addAttribute("fbView", fboardDto);
 		model.addAttribute("fileDto",fileDto);
 		model.addAttribute("rblist",boardDao.rblistDao(fbnumint));	// 댓글 리스트 가져와서 변환하기
+		model.addAttribute("boardId", fboardDto.getFbid());	//  게시판 아이디 불러오기
 		
 		return "board_view";
 	}
@@ -256,8 +258,22 @@ public class HomeController {
 		
 		model.addAttribute("fbView", boardDao.fbViewDao(boardnum));		// 원글 내용
 		model.addAttribute("rblist", boardDao.rblistDao(fbnum));		// 댓글 목록
+		model.addAttribute("boardId", boardDao.fbViewDao(boardnum).getFbid());	//  게시판 아이디 불러오기
 		
 		return "board_view";
 	}
 	
+	
+	
+	@RequestMapping (value = "/fbdelete")
+	public String delete(HttpServletRequest request) {	// 객체를 받아야 하므로 request사용
+		
+		String fbnum = request.getParameter("fbnum");	// 게시글 번호 값을 가져옴
+		
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);	// session을 불러옴
+		
+		boardDao.fbdeleteDao(fbnum);
+		
+		return "redirect:board_list";	// 글이 지워졌는지 list로 반환
+	}
 }

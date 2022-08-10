@@ -130,19 +130,17 @@
   <!-- 게시글 첨부기능 끝 -->
   
   <!-- 해당 글의 작성된 댓글 출력 list -->
-  <table border="1"  cellpadding="0" cellspacing="0" width="750" style="border: dots">
+  <table border="1"  cellpadding="0" cellspacing="0" width="750" style="border-style:hidden;" >
   	<c:forEach items="${rblist }" var="rbdto">
   		<tr>
-  			<td>
-  				댓글 작성자 : ${rbdto.rbid }
-  			</td>
-  		</tr>
-  		<tr>	
-  			<td>
+  			<td colspan="2">
   				내용 : ${rbdto.rbcontent }
   			</td>
   		</tr>
   		<tr>	
+  			<td>
+  				댓글 작성자 : ${rbdto.rbid }
+  			</td>
   			<td>
   				게시일 : ${rbdto.rbdate }
   			</td>
@@ -163,7 +161,25 @@
   <!-- 댓글 기능 끝 -->
   
   <div id="buttons">
-    <a href="#"><img src="${pagaContext.request.contextPath }/resources/img/delete.png"></a>		
+  
+	<%
+		String sid = (String) session.getAttribute("sessionId");  // 형변환 필요
+		
+		if (sid == null) {
+			sid = "GUEST";
+		}
+		
+		String qid = request.getAttribute("boardId").toString();   // Model에서 넘어온 값 빼는 방법
+		
+								
+		if ((sid != null) && (sid.equals(qid)) || (sid.equals("admin")) ) {   // 앞이 참일 경우에만 뒤의 조건을 봄, 아이디가 admin일 경우 모두 다 수정삭제 가능
+	%>
+  
+    <a href="fbdelete?fbnum=${fbView.fbnum }"><img src="${pagaContext.request.contextPath }/resources/img/delete.png"></a>		
+    <% 
+		}
+    %>
+    
     <a href="board_list"><img src="${pagaContext.request.contextPath }/resources/img/list.png"></a>
     <a href="board_write"><img src="${pagaContext.request.contextPath }/resources/img/write.png"></a>			
   </div>

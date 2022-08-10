@@ -15,6 +15,8 @@ public interface BoardDao {
 	
 	public void fbHitDao(String fbnum);		// 자유게시판 조회수 증가 함수
 	
+	public void fbdeleteDao(String fbnum);	// 자유게시판 글 삭제
+	
 //	[게시글 검색용 Dao]	
 	public ArrayList<FBoardDto> fbTitleSearchList(String keyword);		// 자유게시판 제목으로 검색한 결과 리스트 가져오기
 	public ArrayList<FBoardDto> fbContentSearchList(String keyword);	// 자유게시판 내용으로 검색한 결과 리스트 가져오기
@@ -30,4 +32,6 @@ public interface BoardDao {
 	
 //	[댓글 List Dao]
 	public ArrayList<ReplyDto> rblistDao(int fbnum);	// 댓글이 달린 원 글의 게시판 번호로 검색하여 모든 댓글 리스트 반환
+
+
 }

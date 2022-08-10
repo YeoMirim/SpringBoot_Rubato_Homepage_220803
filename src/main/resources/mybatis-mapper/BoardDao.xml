@@ -30,6 +30,10 @@
 	<update id="fbHitDao">
 		UPDATE rubato_freeboard SET fbhit=fbhit+1 WHERE fbnum=#{param1 }
 	</update>
+	
+	<delete id="fbdeleteDao">
+		DELETE FROM rubato_freeboard WHERE fbnum= #{param1 }
+	</delete>
  	
  	<!-- 자유게시판 제목으로 검색한 결과 리스트만 선택 -->
  	<select id="fbTitleSearchList" resultType="com.mirim.rubato.dto.FBoardDto">
